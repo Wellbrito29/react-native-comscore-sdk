@@ -1,0 +1,340 @@
+Quero que você atue como um engenheiro mobile sênior especialista em React Native libraries, Kotlin, Swift e integração de SDKs nativos.
+
+IMPORTANTE:
+Eu já criei a base da biblioteca usando react-native-create-library.
+Portanto, NÃO quero que você recrie o template da lib.
+NÃO quero que você regenere scaffolding inicial.
+NÃO quero que você recrie a estrutura base se ela já existir.
+Seu trabalho é IMPLEMENTAR a integração da Comscore em cima do template já existente.
+
+FONTE DE VERDADE OBRIGATÓRIA
+
+Dentro do projeto existe uma pasta `helpers/` com estes arquivos:
+
+- `helpers/comscore-android-guide.md`
+- `helpers/comscore-apple-guide.md`
+- `helpers/comscore-validation-guide.md`
+
+Você DEVE ler esses arquivos antes de propor qualquer implementação.
+Esses arquivos são a fonte principal de verdade para:
+- setup Android
+- setup Apple
+- lifecycle correto de start
+- consentimento
+- section tracking
+- validation mode
+- fluxo de validação
+- cuidados de release
+
+Se houver conflito entre suposição sua e o que estiver nesses arquivos, siga os arquivos da pasta `helpers/`.
+Não invente comportamento fora do que estiver documentado neles.
+Sempre que uma decisão de implementação depender da Comscore, use os arquivos de `helpers/` como referência prioritária.
+
+Se você não conseguir ler ou considerar os arquivos de `helpers/`, não implemente nada ainda.
+Primeiro peça a árvore do projeto ou o conteúdo necessário, mas não invente.
+
+OBJETIVO
+
+Implementar uma biblioteca React Native que encapsula a SDK da Comscore atrás de uma API TypeScript limpa, com implementação nativa para:
+- Android em Kotlin
+- iOS / iPadOS / tvOS em Swift
+
+A biblioteca deve seguir os guias oficiais da Comscore e respeitar estritamente os passos documentados.
+
+REGRAS DE CONFORMIDADE COMSCORE
+
+Siga estritamente estas regras:
+1. Não use APIs não documentadas da Comscore.
+2. Não invente classes, métodos, labels ou fluxos.
+3. publisherId é obrigatório.
+4. applicationName é opcional.
+5. usagePropertiesAutoUpdateMode e usagePropertiesAutoUpdateInterval são opcionais.
+6. O section tracking deve usar notifyViewEvent com o label ns_category.
+7. Para telas gerais como home ou splash, ns_category deve aceitar string vazia.
+8. O consentimento manual deve usar cs_ucfr como Persistent Label.
+9. Os únicos valores válidos para cs_ucfr são:
+   - "0"
+   - "1"
+   - ""
+10. Se o consentimento mudar depois do start, a implementação deve:
+   - atualizar cs_ucfr
+   - disparar hidden event
+11. child-directed mode deve ser aplicado antes do start.
+12. implementation validation mode deve ser aplicado antes do start.
+13. validation mode deve ficar restrito a debug/validação e nunca permanecer habilitado em produção.
+14. notifyUxActive() e notifyUxInactive() só devem ser usados em cenários reais de UX em background, como playback.
+
+IMPORTANTE SOBRE O ESCOPO
+
+Quero que você:
+- aproveite o template existente
+- detecte a arquitetura já gerada pela lib
+- complete apenas os arquivos necessários
+- preserve o máximo possível da estrutura atual
+- altere apenas o que for necessário para a implementação
+
+Não quero uma resposta genérica recriando tudo do zero.
+Quero uma implementação incremental sobre a base já existente.
+
+O QUE VOCÊ DEVE FAZER
+
+1. Analisar a estrutura atual do projeto da biblioteca.
+2. Ler obrigatoriamente os arquivos dentro de `helpers/`.
+3. Identificar se o template está usando Turbo Module / New Architecture / legacy compatibility.
+4. Implementar a API pública TypeScript por cima da estrutura existente.
+5. Implementar a camada Android em Kotlin.
+6. Implementar a camada Apple em Swift.
+7. Adaptar os arquivos de configuração necessários sem destruir o template.
+8. Adicionar exemplos mínimos de uso.
+9. Adicionar documentação de integração.
+10. Adicionar validações de debug/release para validation mode.
+11. Adicionar proteção para initialize idempotente.
+
+DETALHES OBRIGATÓRIOS — API PÚBLICA
+
+Implemente uma API TypeScript equivalente a esta, adaptando ao template existente:
+
+type ComscoreConsentValue = "0" | "1" | ""
+
+type ComscoreAutoUpdateMode =
+  | "foregroundOnly"
+  | "foregroundAndBackground"
+  | "disabled"
+
+type ComscoreConfig = {
+  publisherId: string
+  applicationName?: string
+  autoUpdateMode?: ComscoreAutoUpdateMode
+  autoUpdateIntervalSeconds?: number
+  childDirected?: boolean
+  validationMode?: boolean
+  startOnlyWhenUIIsVisible?: boolean
+  initialConsent?: ComscoreConsentValue
+  debugLogs?: boolean
+}
+
+interface ComscoreModule {
+  initialize(config: ComscoreConfig): Promise<void>
+  notifyUxActive(): Promise<void>
+  notifyUxInactive(): Promise<void>
+  trackSection(sectionName?: string | null): Promise<void>
+  updateConsent(value: ComscoreConsentValue): Promise<void>
+  setChildDirected(enabled: boolean): Promise<void>
+  setValidationMode(enabled: boolean): Promise<void>
+  getVersion(): Promise<string>
+}
+
+Regras:
+- initialize deve validar publisherId
+- initialize deve ser idempotente
+- trackSection deve aceitar string vazia
+- updateConsent deve funcionar antes e depois do start
+- setValidationMode deve falhar de forma controlada ou virar no-op em release
+- tipos estritos
+- mensagens de erro claras
+
+DETALHES OBRIGATÓRIOS — ANDROID
+
+Implemente em Kotlin seguindo os guias da Comscore descritos em `helpers/comscore-android-guide.md`:
+1. Documentar uso via Maven Central.
+2. Documentar dependência principal da Comscore Android.
+3. Documentar dependência opcional do Google Play Services App Set ID.
+4. Garantir que o start aconteça no equivalente ao Application.onCreate() do app hospedeiro.
+5. Garantir uso apenas no processo principal.
+6. Evitar inicialização indevida em processos secundários.
+7. Implementar:
+   - initialize(config)
+   - notifyUxActive()
+   - notifyUxInactive()
+   - trackSection(sectionName)
+   - updateConsent(value)
+   - setChildDirected(enabled)
+   - setValidationMode(enabled)
+8. trackSection deve usar ns_category.
+9. updateConsent deve atualizar cs_ucfr e disparar hidden event.
+10. child directed antes do start.
+11. validation mode antes do start.
+12. validation mode bloqueado em release.
+13. Proteger contra múltiplas chamadas de initialize.
+
+DETALHES OBRIGATÓRIOS — APPLE
+
+Implemente em Swift seguindo os guias da Comscore descritos em `helpers/comscore-apple-guide.md`:
+1. Compatível com iOS / iPadOS / tvOS.
+2. Documentar Swift Package Manager e CocoaPods.
+3. Garantir start no ponto equivalente a didFinishLaunchingWithOptions ou lifecycle seguro.
+4. Evitar start em cenários sem UI visível real, quando aplicável.
+5. Implementar:
+   - initialize(config)
+   - notifyUxActive()
+   - notifyUxInactive()
+   - trackSection(sectionName)
+   - updateConsent(value)
+   - setChildDirected(enabled)
+   - setValidationMode(enabled)
+6. trackSection com ns_category.
+7. string vazia para telas gerais.
+8. updateConsent com cs_ucfr + hidden event.
+9. child directed antes do start.
+10. validation mode antes do start.
+11. validation mode bloqueado em release.
+12. initialize idempotente.
+
+DETALHES OBRIGATÓRIOS — VALIDAÇÃO
+
+A implementação e documentação devem seguir `helpers/comscore-validation-guide.md` e incluir:
+
+ANDROID
+- validation mode apenas em debug
+- fluxo alternativo com Charles + networkSecurityConfig + certificado + whitelist de scorecardresearch.com para build de validação
+- observação de remoção de todo setup de validação antes de produção
+
+APPLE
+- validation mode apenas em debug
+- fluxo de validação para build pública e pre-release
+- observação sobre TestFlight / IPA / device access quando aplicável
+
+OTT / CTV
+- checklist para apps de streaming/tvOS
+- credenciais de teste quando houver autenticação
+- cuidado com validação de navegação e playback
+
+MODO DE TRABALHO OBRIGATÓRIO — EXECUTAR POR ETAPAS
+
+Você NÃO deve tentar entregar tudo de uma vez.
+Você deve trabalhar em etapas sequenciais, esperando confirmação entre elas.
+
+ETAPA 1 — LEITURA E DIAGNÓSTICO
+Objetivo:
+- ler os arquivos de `helpers/`
+- analisar a estrutura atual do projeto
+- identificar a arquitetura do template
+- mapear exatamente quais arquivos precisam ser alterados/criados
+
+Saída esperada da Etapa 1:
+1. seção `Arquivos de referência lidos`
+2. resumo curto do que cada arquivo de `helpers/` governa
+3. diagnóstico da arquitetura atual da lib
+4. lista exata de arquivos a alterar/criar
+5. plano curto de implementação por etapas
+
+Regra:
+- na Etapa 1, NÃO implemente código ainda
+- ao final, pare e espere instrução para seguir
+
+ETAPA 2 — TYPESCRIPT PÚBLICO
+Objetivo:
+- implementar apenas a camada pública TypeScript
+- tipos
+- validações
+- wrapper público
+- interface de módulo
+- erros amigáveis
+- integração com a bridge já existente no template
+
+Saída esperada da Etapa 2:
+- apenas arquivos TS/JS necessários
+- conteúdo completo dos arquivos alterados/criados
+- breve explicação das decisões
+
+Regra:
+- na Etapa 2, NÃO implemente Android nem iOS ainda
+- ao final, pare e espere instrução para seguir
+
+ETAPA 3 — ANDROID
+Objetivo:
+- implementar apenas a camada Android em Kotlin
+- adapter interno
+- initialize idempotente
+- main process guard
+- consent update com hidden event
+- ns_category
+- validation mode
+- bloqueio em release
+- arquivos Gradle/manifests necessários
+
+Saída esperada da Etapa 3:
+- apenas arquivos Android necessários
+- conteúdo completo dos arquivos alterados/criados
+- breve explicação das decisões
+
+Regra:
+- na Etapa 3, NÃO implemente iOS ainda
+- ao final, pare e espere instrução para seguir
+
+ETAPA 4 — APPLE
+Objetivo:
+- implementar apenas a camada iOS / iPadOS / tvOS em Swift
+- adapter interno
+- initialize idempotente
+- consent update com hidden event
+- ns_category
+- validation mode
+- bloqueio em release
+- ajustes de podspec/config quando necessário
+
+Saída esperada da Etapa 4:
+- apenas arquivos Apple necessários
+- conteúdo completo dos arquivos alterados/criados
+- breve explicação das decisões
+
+Regra:
+- ao final, pare e espere instrução para seguir
+
+ETAPA 5 — README E VALIDAÇÃO
+Objetivo:
+- implementar apenas a documentação complementar
+- README de integração
+- guia curto de validação baseado nos arquivos de `helpers/`
+- exemplos mínimos de uso
+- checklist final de conformidade
+
+Saída esperada da Etapa 5:
+- apenas arquivos de documentação necessários
+- conteúdo completo
+- checklist final
+
+Regra:
+- ao final, pare
+
+MODO DE RESPOSTA EM CADA ETAPA
+
+Em cada etapa, responda sempre nesta ordem:
+1. Nome da etapa atual
+2. O que foi feito nesta etapa
+3. Arquivos alterados/criados nesta etapa
+4. Conteúdo completo dos arquivos
+5. Observações importantes
+6. Frase final: `Etapa concluída. Aguardando próxima instrução.`
+
+EXIGÊNCIA EXTRA
+
+Antes de começar a implementação, faça uma breve seção chamada:
+`Arquivos de referência lidos`
+
+Nessa seção, confirme explicitamente que você leu:
+- `helpers/comscore-android-guide.md`
+- `helpers/comscore-apple-guide.md`
+- `helpers/comscore-validation-guide.md`
+
+E resuma em 1 ou 2 linhas o que cada um governa na implementação.
+
+FORMATO GERAL DA RESPOSTA
+
+Quando estiver trabalhando, preserve naming, conventions e estrutura do template.
+Se precisar assumir nomes de arquivos do react-native-create-library, use os padrões mais comuns desse template.
+Se houver incerteza entre Turbo Module e legacy bridge, priorize a estrutura já presente no template e adapte a implementação a ela.
+
+REGRAS FINAIS
+
+- Não recrie a biblioteca do zero
+- Não gere boilerplate repetido
+- Não escreva pseudocódigo
+- Gere código completo quando chegar a etapa de código
+- Sempre indique o caminho do arquivo antes do conteúdo
+- Mantenha compatibilidade com o template do react-native-create-library
+- Preserve a arquitetura existente
+- Implemente apenas o necessário
+- Use os arquivos de `helpers/` como fonte prioritária de verdade
+- Não avance automaticamente para a próxima etapa sem encerrar a atual
+- Ao final de cada etapa, pare e aguarde
