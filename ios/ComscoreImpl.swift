@@ -11,11 +11,11 @@ public class ComscoreImpl: NSObject {
         applicationName: String,
         autoUpdateMode: String,
         autoUpdateIntervalSeconds: Double,
-        childDirected: Boolean,
-        validationMode: Boolean,
-        startOnlyWhenUIIsVisible: Boolean,
+        childDirected: Bool,
+        validationMode: Bool,
+        startOnlyWhenUIIsVisible: Bool,
         initialConsent: String,
-        debugLogs: Boolean,
+        debugLogs: Bool,
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
     ) {

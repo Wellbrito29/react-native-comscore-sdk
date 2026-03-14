@@ -35,10 +35,16 @@ let isInitialized = false;
 const Comscore: ComscoreModule = {
   initialize: async (config: ComscoreConfig): Promise<void> => {
     if (isInitialized) {
-      console.warn('Comscore is already initialized. Ignoring subsequent calls.');
+      console.warn(
+        'Comscore is already initialized. Ignoring subsequent calls.'
+      );
       return;
     }
-    if (!config || typeof config.publisherId !== 'string' || config.publisherId.trim() === '') {
+    if (
+      !config ||
+      typeof config.publisherId !== 'string' ||
+      config.publisherId.trim() === ''
+    ) {
       throw new Error(
         'Comscore initialization failed: publisherId is required and must be a non-empty string.'
       );
@@ -55,7 +61,7 @@ const Comscore: ComscoreModule = {
       config.initialConsent ?? '',
       config.debugLogs ?? false
     );
-    
+
     isInitialized = true;
   },
 
