@@ -79,7 +79,7 @@ class ComscoreModule(reactContext: ReactApplicationContext) :
 
       // 5. Child Directed (before start)
       if (childDirected) {
-        config.setChildDirectedAppMode(true)
+        config.enableChildDirectedApplicationMode()
       }
 
       // 6. Validation Mode (before start, block in release)
@@ -137,7 +137,10 @@ class ComscoreModule(reactContext: ReactApplicationContext) :
   }
 
   override fun setChildDirected(enabled: Boolean, promise: Promise) {
-    Analytics.getConfiguration().setChildDirectedAppMode(enabled)
+    if (enabled) {
+      Analytics.getConfiguration().enableChildDirectedApplicationMode()
+    }
+    // Note: Comscore Android SDK does not provide a method to disable child directed mode once enabled.
     promise.resolve(null)
   }
 

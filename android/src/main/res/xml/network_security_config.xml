@@ -7,7 +7,7 @@
         <trust-anchors>
             <certificates src="system" />
             <certificates src="user" />
-            <certificates src="@raw/charles_ssl"/>
+
         </trust-anchors>
     </debug-overrides>
     <base-config cleartextTrafficPermitted="true">

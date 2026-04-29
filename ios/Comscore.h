@@ -1,5 +1,4 @@
-#import <React/RCTBridgeModule.h>
-#import "RNComscoreSpec.h"
+#import "ComscoreSpec.h"
 
 @interface Comscore : NSObject <NativeComscoreSpec>
 

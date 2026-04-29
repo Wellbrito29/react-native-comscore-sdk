@@ -16,15 +16,18 @@ public class ComscoreImpl: NSObject {
         startOnlyWhenUIIsVisible: Bool,
         initialConsent: String,
         debugLogs: Bool,
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
+        resolve: @escaping (Any?) -> Void,
+        reject: @escaping (String, String, Error?) -> Void
     ) {
         if isInitialized {
             resolve(nil)
             return
         }
 
-        let config = SCORAnalytics.configuration()
+        guard let config = SCORAnalytics.configuration() else {
+            reject("INIT_ERROR", "Unable to retrieve SCORAnalytics configuration", nil)
+            return
+        }
 
         // 1. Publisher Config (mandatory)
         let publisherConfig = SCORPublisherConfiguration(builderBlock: { builder in
@@ -56,7 +59,7 @@ public class ComscoreImpl: NSObject {
 
         // 5. Child Directed (before start)
         if childDirected {
-            config.childDirectedAppMode = true
+            config.enableChildDirectedApplicationMode()
         }
 
         // 6. Validation Mode (before start, block in release)
@@ -79,49 +82,52 @@ public class ComscoreImpl: NSObject {
     }
 
     @objc
-    public func notifyUxActive(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func notifyUxActive(resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
         SCORAnalytics.notifyUxActive()
         resolve(nil)
     }
 
     @objc
-    public func notifyUxInactive(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func notifyUxInactive(resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
         SCORAnalytics.notifyUxInactive()
         resolve(nil)
     }
 
     @objc
-    public func trackSection(sectionName: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func trackSection(sectionName: String, resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
         SCORAnalytics.notifyViewEvent(withLabels: ["ns_category": sectionName])
         resolve(nil)
     }
 
     @objc
-    public func updateConsent(value: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        SCORAnalytics.configuration().setPersistentLabelWithName("cs_ucfr", value: value)
+    public func updateConsent(value: String, resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
+        SCORAnalytics.configuration()?.setPersistentLabelWithName("cs_ucfr", value: value)
         // According to guidelines: if consent changes after start, update cs_ucfr AND fire hidden event
         SCORAnalytics.notifyHiddenEvent()
         resolve(nil)
     }
 
     @objc
-    public func setChildDirected(enabled: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        SCORAnalytics.configuration().childDirectedAppMode = enabled
+    public func setChildDirected(enabled: Bool, resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
+        if enabled {
+            SCORAnalytics.configuration()?.enableChildDirectedApplicationMode()
+        }
+        // Note: Comscore iOS SDK does not provide a method to disable child directed mode once enabled.
         resolve(nil)
     }
 
     @objc
-    public func setValidationMode(enabled: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func setValidationMode(enabled: Bool, resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
         #if DEBUG
         if enabled {
-            SCORAnalytics.configuration().enableImplementationValidationMode()
+            SCORAnalytics.configuration()?.enableImplementationValidationMode()
         }
         #endif
         resolve(nil)
     }
 
     @objc
-    public func getVersion(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func getVersion(resolve: (Any?) -> Void, reject: (String, String, Error?) -> Void) {
         resolve(SCORAnalytics.version())
     }
 }

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-comscore": ["../src/index"]
+      "react-native-comscore-sdk": ["../src/index"]
     },
     "jsx": "react-native",
     "esModuleInterop": true,

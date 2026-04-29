@@ -13,7 +13,7 @@
   "dependencies": {
     "react": "19.2.0",
     "react-native": "0.83.0",
-    "react-native-comscore": "workspace:*"
+    "react-native-comscore-sdk": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

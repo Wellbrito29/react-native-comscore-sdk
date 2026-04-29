@@ -7,7 +7,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import Comscore from 'react-native-comscore';
+import Comscore from 'react-native-comscore-sdk';
 
 export default function App() {
   const [version, setVersion] = useState<string>('unknown');
@@ -33,7 +33,7 @@ export default function App() {
     try {
       addLog('Initializing Comscore...');
       await Comscore.initialize({
-        publisherId: 'YOUR_PUBLISHER_ID', // Replace with a real ID for testing
+        publisherId: '40112269', // C2/Client ID provided by Comscore
         applicationName: 'Example App',
         debugLogs: true,
       });
