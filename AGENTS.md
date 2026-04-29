@@ -11,7 +11,7 @@ This file contains project-specific context for AI coding agents. If you are wor
 - **Library type**: Turbo Module (New Architecture)
 - **Package manager**: Yarn 4.11.0 (workspaces enabled)
 - **Monorepo layout**: Root = library package; `example/` = sample React Native app consuming the library
-- **Repository**: https://github.com/Wellbrito29/react-native-comscore
+- **Repository**: https://github.com/Wellbrito29/react-native-comscore-sdk
 - **License**: MIT
 
 ### Technology Stack

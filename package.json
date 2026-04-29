@@ -47,14 +47,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Wellbrito29/react-native-comscore.git"
+    "url": "git+https://github.com/Wellbrito29/react-native-comscore-sdk.git"
   },
   "author": "Wellington Nascimento <well334@hotmail.com> (https://github.com/Wellbrito29)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Wellbrito29/react-native-comscore/issues"
+    "url": "https://github.com/Wellbrito29/react-native-comscore-sdk/issues"
   },
-  "homepage": "https://github.com/Wellbrito29/react-native-comscore#readme",
+  "homepage": "https://github.com/Wellbrito29/react-native-comscore-sdk#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
