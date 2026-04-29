@@ -1,0 +1,8 @@
+title: React Native Comscore SDK
+description: React Native Turbo Module for the Comscore audience measurement SDK (iOS & Android)
+url: https://wellbrito29.github.io
+baseurl: /react-native-comscore
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+show_downloads: false
