@@ -1,25 +1,7 @@
-<style>
-  html, body { background-color: #0d1117 !important; color: #c9d1d9 !important; }
-  .page-header { background-color: #161b22 !important; background-image: none !important; border-bottom: 1px solid #30363d; }
-  .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 { color: #e6edf3 !important; }
-  a { color: #58a6ff !important; }
-  a:hover { color: #79c0ff !important; }
-  code { background-color: rgba(255,255,255,0.08) !important; color: #e6edf3 !important; }
-  pre { background-color: #161b22 !important; border: 1px solid #30363d !important; }
-  hr { border-color: rgba(255,255,255,0.1) !important; }
-  blockquote { color: #8b949e !important; border-left-color: #30363d !important; }
-  table { display: block !important; overflow-x: auto !important; max-width: 100% !important; -webkit-overflow-scrolling: touch !important; border-collapse: collapse !important; }
-  table th, table td { padding: 0.6rem 0.8rem !important; border: 1px solid rgba(255,255,255,0.1) !important; white-space: nowrap !important; }
-  table th { font-weight: 600 !important; background-color: rgba(255,255,255,0.05) !important; }
-  table tr:nth-child(even) { background-color: rgba(255,255,255,0.02) !important; }
-  @media screen and (max-width: 480px) {
-    table th, table td { white-space: normal !important; font-size: 0.85rem !important; padding: 0.4rem 0.5rem !important; }
-  }
-</style>
-
 # react-native-comscore-sdk
 
 [![npm version](https://badge.fury.io/js/react-native-comscore-sdk.svg)](https://badge.fury.io/js/react-native-comscore-sdk)
+[![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://wellbrito29.github.io/react-native-comscore-sdk/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 A React Native **Turbo Module** that wraps the native [Comscore](https://www.comscore.com/) SDK for audience measurement on **iOS** and **Android**.

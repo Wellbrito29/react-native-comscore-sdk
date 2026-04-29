@@ -1,6 +1,7 @@
 # react-native-comscore-sdk
 
 [![npm version](https://badge.fury.io/js/react-native-comscore-sdk.svg)](https://badge.fury.io/js/react-native-comscore-sdk)
+[![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://wellbrito29.github.io/react-native-comscore-sdk/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 A React Native **Turbo Module** that wraps the native [Comscore](https://www.comscore.com/) SDK for audience measurement on **iOS** and **Android**.
