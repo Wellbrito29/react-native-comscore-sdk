@@ -4,6 +4,8 @@
 [![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://wellbrito29.github.io/react-native-comscore-sdk/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
+📖 **Documentation:** [wellbrito29.github.io/react-native-comscore-sdk](https://wellbrito29.github.io/react-native-comscore-sdk/)
+
 A React Native **Turbo Module** that wraps the native [Comscore](https://www.comscore.com/) SDK for audience measurement on **iOS** and **Android**.
 
 - ✅ **New Architecture** — Built for TurboModules + Fabric (React Native 0.83+)
