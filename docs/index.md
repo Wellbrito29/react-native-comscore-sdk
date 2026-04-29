@@ -1,3 +1,32 @@
+<style>
+  html, body { background-color: #0d1117; color: #c9d1d9; }
+  .page-header {
+    background-color: #161b22;
+    background-image: linear-gradient(120deg, #155799, #159957);
+    border-bottom: 1px solid #30363d;
+  }
+  .page-header h1, .page-header h2, .page-header .project-tagline { color: #ffffff; }
+  .main-content h1, .main-content h2, .main-content h3,
+  .main-content h4, .main-content h5, .main-content h6 { color: #e6edf3; }
+  a { color: #58a6ff; }
+  a:hover { color: #79c0ff; }
+  code { background-color: rgba(255,255,255,0.08); color: #e6edf3; }
+  pre { background-color: #161b22; border: 1px solid #30363d; }
+  hr { border-color: rgba(255,255,255,0.1); }
+  blockquote { color: #8b949e; border-left-color: #30363d; background-color: rgba(255,255,255,0.03); }
+  table {
+    display: block; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;
+    border-collapse: collapse; background-color: #161b22; border: 1px solid #30363d; border-radius: 6px;
+  }
+  table th, table td { padding: 0.6rem 0.8rem; border: 1px solid #30363d; white-space: nowrap; }
+  table th { font-weight: 600; background-color: #21262d; color: #e6edf3; }
+  table tr:nth-child(even) { background-color: rgba(255,255,255,0.02); }
+  table tr:hover { background-color: rgba(255,255,255,0.04); }
+  @media screen and (max-width: 480px) {
+    table th, table td { white-space: normal; font-size: 0.85rem; padding: 0.4rem 0.5rem; }
+  }
+</style>
+
 # react-native-comscore-sdk
 
 [![npm version](https://badge.fury.io/js/react-native-comscore-sdk.svg)](https://badge.fury.io/js/react-native-comscore-sdk)
