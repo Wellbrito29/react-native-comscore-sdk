@@ -1,7 +1,7 @@
 {
   "name": "react-native-comscore-sdk",
-  "version": "1.0.0",
-  "description": "React Native Turbo Module for the Comscore audience measurement SDK (iOS & Android)",
+  "version": "0.1.0",
+  "description": "comscore react native",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
