@@ -1,6 +1,6 @@
 {
   "name": "react-native-comscore-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "comscore react native",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
