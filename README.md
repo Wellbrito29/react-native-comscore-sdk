@@ -17,13 +17,13 @@ A React Native **Turbo Module** that wraps the native [Comscore](https://www.com
 
 ## Requirements
 
-| Platform | Minimum Version | Notes |
-|---|---|---|
-| React Native | `0.83.0` | New Architecture (TurboModules) required |
-| iOS | `15.1` | |
-| Android | `minSdk 24` | |
-| Comscore SDK (iOS) | `~> 6.0` | Installed via CocoaPods |
-| Comscore SDK (Android) | `6.11.0` | Installed via Maven Central |
+| Platform               | Minimum Version | Notes                                    |
+| ---------------------- | --------------- | ---------------------------------------- |
+| React Native           | `0.83.0`        | New Architecture (TurboModules) required |
+| iOS                    | `15.1`          |                                          |
+| Android                | `minSdk 24`     |                                          |
+| Comscore SDK (iOS)     | `~> 6.0`        | Installed via CocoaPods                  |
+| Comscore SDK (Android) | `6.11.0`        | Installed via Maven Central              |
 
 ---
 
@@ -75,17 +75,17 @@ useEffect(() => {
 
 #### `ComscoreConfig`
 
-| Property | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `publisherId` | `string` | ✅ | — | Your Comscore publisher ID |
-| `applicationName` | `string` | | `''` | Application name reported to Comscore |
-| `usagePropertiesAutoUpdateMode` | `'foregroundOnly' \| 'foregroundAndBackground' \| 'disabled'` | | `''` | When usage properties are auto-updated |
-| `autoUpdateIntervalSeconds` | `number` | | `-1` | Interval in seconds (minimum: 60) |
-| `childDirected` | `boolean` | | `false` | Enables COPPA/child-directed mode. Disables advertising identifiers |
-| `validationMode` | `boolean` | | `false` | **Debug only.** Enables Comscore implementation validation |
-| `startOnlyWhenUIIsVisible` | `boolean` | | `false` | Delays analytics start until UI is visible |
-| `initialConsent` | `'0' \| '1' \| ''` | | `''` | Initial GDPR consent state |
-| `debugLogs` | `boolean` | | `false` | Enables SDK debug logging |
+| Property                        | Type                                                          | Required | Default | Description                                                         |
+| ------------------------------- | ------------------------------------------------------------- | -------- | ------- | ------------------------------------------------------------------- |
+| `publisherId`                   | `string`                                                      | ✅       | —       | Your Comscore publisher ID                                          |
+| `applicationName`               | `string`                                                      |          | `''`    | Application name reported to Comscore                               |
+| `usagePropertiesAutoUpdateMode` | `'foregroundOnly' \| 'foregroundAndBackground' \| 'disabled'` |          | `''`    | When usage properties are auto-updated                              |
+| `autoUpdateIntervalSeconds`     | `number`                                                      |          | `-1`    | Interval in seconds (minimum: 60)                                   |
+| `childDirected`                 | `boolean`                                                     |          | `false` | Enables COPPA/child-directed mode. Disables advertising identifiers |
+| `validationMode`                | `boolean`                                                     |          | `false` | **Debug only.** Enables Comscore implementation validation          |
+| `startOnlyWhenUIIsVisible`      | `boolean`                                                     |          | `false` | Delays analytics start until UI is visible                          |
+| `initialConsent`                | `'0' \| '1' \| ''`                                            |          | `''`    | Initial GDPR consent state                                          |
+| `debugLogs`                     | `boolean`                                                     |          | `false` | Enables SDK debug logging                                           |
 
 ---
 
